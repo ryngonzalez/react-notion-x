@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { ExtendedRecordMap } from 'notion-types'
 import { getPageTitle } from 'notion-utils'
 import { NotionRenderer } from 'react-notion-x'
+import { Collection } from 'react-notion-x/build/third-party/collection'
 
 export const NotionPage = ({
   recordMap,
@@ -32,6 +33,9 @@ export const NotionPage = ({
         fullPage={true}
         darkMode={false}
         rootPageId={rootPageId}
+        components={{
+          Collection
+        }}
       />
     </>
   )
