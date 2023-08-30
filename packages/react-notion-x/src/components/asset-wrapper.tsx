@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { BaseContentBlock, Block } from 'notion-types'
-import { parsePageId } from 'notion-utils'
+import { getTextContent, parsePageId } from 'notion-utils'
 
 import { useNotionContext } from '..'
 import { cs } from '../utils'
@@ -32,7 +32,7 @@ export const AssetWrapper: React.FC<{
 
   let isVideoParams = false
   if (block.type === 'video') {
-    const caption: string = value?.properties?.caption?.[0]?.[0]
+    const caption: string = getTextContent(value.properties?.caption)
     if (caption) {
       if (caption.includes('loop') || caption.includes('autoplay')) {
         isVideoParams = true

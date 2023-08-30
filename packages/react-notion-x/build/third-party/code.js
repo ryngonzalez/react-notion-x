@@ -296,7 +296,7 @@ import * as React20 from "react";
 
 // src/components/asset-wrapper.tsx
 import * as React16 from "react";
-import { parsePageId } from "notion-utils";
+import { getTextContent as getTextContent2, parsePageId } from "notion-utils";
 
 // src/utils.ts
 import { isUrl, formatDate, formatNotionDateTime } from "notion-utils";
@@ -1411,7 +1411,7 @@ var Asset = ({ block, zoomable = true, children }) => {
 // src/components/asset-wrapper.tsx
 var urlStyle = { width: "100%" };
 var AssetWrapper = ({ blockId, block }) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+  var _a, _b, _c, _d, _e, _f, _g;
   const value = block;
   const { components, mapPageUrl, rootDomain, zoom } = useNotionContext();
   let isURL = false;
@@ -1427,7 +1427,7 @@ var AssetWrapper = ({ blockId, block }) => {
   }
   let isVideoParams = false;
   if (block.type === "video") {
-    const caption = (_f = (_e = (_d = value == null ? void 0 : value.properties) == null ? void 0 : _d.caption) == null ? void 0 : _e[0]) == null ? void 0 : _f[0];
+    const caption = getTextContent2((_d = value.properties) == null ? void 0 : _d.caption);
     if (caption) {
       if (caption.includes("loop") || caption.includes("autoplay")) {
         isVideoParams = true;
@@ -1438,20 +1438,20 @@ var AssetWrapper = ({ blockId, block }) => {
     className: cs(
       "notion-asset-wrapper",
       `notion-asset-wrapper-${block.type}`,
-      ((_g = value.format) == null ? void 0 : _g.block_full_width) && "notion-asset-wrapper-full",
+      ((_e = value.format) == null ? void 0 : _e.block_full_width) && "notion-asset-wrapper-full",
       blockId
     )
   }, /* @__PURE__ */ React16.createElement(Asset, {
     block: value,
     zoomable: zoom && !isURL
-  }, ((_h = value == null ? void 0 : value.properties) == null ? void 0 : _h.caption) && !isURL && !isVideoParams && /* @__PURE__ */ React16.createElement("figcaption", {
+  }, ((_f = value == null ? void 0 : value.properties) == null ? void 0 : _f.caption) && !isURL && !isVideoParams && /* @__PURE__ */ React16.createElement("figcaption", {
     className: "notion-asset-caption"
   }, /* @__PURE__ */ React16.createElement(Text, {
     value: value.properties.caption,
     block
   }))));
   if (isURL) {
-    const caption = (_i = value == null ? void 0 : value.properties) == null ? void 0 : _i.caption[0][0];
+    const caption = (_g = value == null ? void 0 : value.properties) == null ? void 0 : _g.caption[0][0];
     const id = parsePageId(caption, { uuid: true });
     const isPage = caption.charAt(0) === "/" && id;
     const captionHostname = extractHostname(caption);
