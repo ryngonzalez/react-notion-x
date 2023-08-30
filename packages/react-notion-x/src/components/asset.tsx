@@ -191,10 +191,14 @@ export const Asset: React.FC<{
     ) {
       style.paddingBottom = undefined
 
+      const caption = getTextContent(block.properties?.caption)
       content = (
         <video
+          autoPlay={caption.includes('autoplay')}
+          loop={caption.includes('loop')}
           playsInline
-          controls
+          controls={!caption.includes('autoplay')}
+          muted={caption.includes('autoplay')}
           preload='metadata'
           style={assetStyle}
           src={source}

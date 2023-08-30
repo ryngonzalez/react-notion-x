@@ -4324,7 +4324,7 @@ var supportedAssetTypes = [
   "drive"
 ];
 var Asset = ({ block, zoomable = true, children }) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
   const { recordMap, mapImageUrl, components } = useNotionContext();
   if (!block || !supportedAssetTypes.includes(block.type)) {
     return null;
@@ -4444,16 +4444,20 @@ var Asset = ({ block, zoomable = true, children }) => {
   } else if (block.type === "embed" || block.type === "video" || block.type === "figma" || block.type === "typeform" || block.type === "gist" || block.type === "maps" || block.type === "excalidraw" || block.type === "codepen" || block.type === "drive" || block.type === "replit") {
     if (block.type === "video" && source && source.indexOf("youtube") < 0 && source.indexOf("youtu.be") < 0 && source.indexOf("vimeo") < 0 && source.indexOf("wistia") < 0 && source.indexOf("loom") < 0 && source.indexOf("videoask") < 0 && source.indexOf("getcloudapp") < 0) {
       style.paddingBottom = void 0;
+      const caption = getTextContent((_f = block.properties) == null ? void 0 : _f.caption);
       content = /* @__PURE__ */ React14.createElement("video", {
+        autoPlay: caption.includes("autoplay"),
+        loop: caption.includes("loop"),
         playsInline: true,
-        controls: true,
+        controls: !caption.includes("autoplay"),
+        muted: caption.includes("autoplay"),
         preload: "metadata",
         style: assetStyle,
         src: source,
         title: block.type
       });
     } else {
-      let src = ((_f = block.format) == null ? void 0 : _f.display_source) || source;
+      let src = ((_g = block.format) == null ? void 0 : _g.display_source) || source;
       if (src) {
         const youtubeVideoId = block.type === "video" ? getYoutubeId(src) : null;
         if (youtubeVideoId) {
@@ -4494,10 +4498,10 @@ var Asset = ({ block, zoomable = true, children }) => {
     }
   } else if (block.type === "image") {
     if (source.includes("file.notion.so")) {
-      source = (_i = (_h = (_g = block.properties) == null ? void 0 : _g.source) == null ? void 0 : _h[0]) == null ? void 0 : _i[0];
+      source = (_j = (_i = (_h = block.properties) == null ? void 0 : _h.source) == null ? void 0 : _i[0]) == null ? void 0 : _j[0];
     }
     const src = mapImageUrl(source, block);
-    const caption = getTextContent((_j = block.properties) == null ? void 0 : _j.caption);
+    const caption = getTextContent((_k = block.properties) == null ? void 0 : _k.caption);
     const alt = caption || "notion image";
     content = /* @__PURE__ */ React14.createElement(LazyImage, {
       src,
