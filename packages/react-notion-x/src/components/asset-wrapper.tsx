@@ -18,6 +18,7 @@ export const AssetWrapper: React.FC<{
   const { components, mapPageUrl, rootDomain, zoom } = useNotionContext()
 
   let isURL = false
+  let isVideoParams = false
   if (block.type === 'image') {
     const caption: string = value?.properties?.caption?.[0]?.[0]
     if (caption) {
@@ -26,6 +27,10 @@ export const AssetWrapper: React.FC<{
       const isPage = caption.charAt(0) === '/' && id
       if (isPage || isValidURL(caption)) {
         isURL = true
+      }
+
+      if (caption.includes('loop') || caption.includes('autoplay')) {
+        isVideoParams = true
       }
     }
   }
@@ -40,7 +45,7 @@ export const AssetWrapper: React.FC<{
       )}
     >
       <Asset block={value} zoomable={zoom && !isURL}>
-        {value?.properties?.caption && !isURL && (
+        {value?.properties?.caption && !isURL && !isVideoParams && (
           <figcaption className='notion-asset-caption'>
             <Text value={value.properties.caption} block={block} />
           </figcaption>

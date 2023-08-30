@@ -1518,6 +1518,7 @@ var AssetWrapper = ({ blockId, block }) => {
   const value = block;
   const { components, mapPageUrl, rootDomain, zoom } = useNotionContext();
   let isURL = false;
+  let isVideoParams = false;
   if (block.type === "image") {
     const caption = (_c = (_b = (_a = value == null ? void 0 : value.properties) == null ? void 0 : _a.caption) == null ? void 0 : _b[0]) == null ? void 0 : _c[0];
     if (caption) {
@@ -1525,6 +1526,9 @@ var AssetWrapper = ({ blockId, block }) => {
       const isPage = caption.charAt(0) === "/" && id;
       if (isPage || isValidURL(caption)) {
         isURL = true;
+      }
+      if (caption.includes("loop") || caption.includes("autoplay")) {
+        isVideoParams = true;
       }
     }
   }
@@ -1538,7 +1542,7 @@ var AssetWrapper = ({ blockId, block }) => {
   }, /* @__PURE__ */ React17.createElement(Asset, {
     block: value,
     zoomable: zoom && !isURL
-  }, ((_e = value == null ? void 0 : value.properties) == null ? void 0 : _e.caption) && !isURL && /* @__PURE__ */ React17.createElement("figcaption", {
+  }, ((_e = value == null ? void 0 : value.properties) == null ? void 0 : _e.caption) && !isURL && !isVideoParams && /* @__PURE__ */ React17.createElement("figcaption", {
     className: "notion-asset-caption"
   }, /* @__PURE__ */ React17.createElement(Text, {
     value: value.properties.caption,
