@@ -18,7 +18,6 @@ export const AssetWrapper: React.FC<{
   const { components, mapPageUrl, rootDomain, zoom } = useNotionContext()
 
   let isURL = false
-  let isVideoParams = false
   if (block.type === 'image') {
     const caption: string = value?.properties?.caption?.[0]?.[0]
     if (caption) {
@@ -28,7 +27,13 @@ export const AssetWrapper: React.FC<{
       if (isPage || isValidURL(caption)) {
         isURL = true
       }
+    }
+  }
 
+  let isVideoParams = false
+  if (block.type === 'video') {
+    const caption: string = value?.properties?.caption?.[0]?.[0]
+    if (caption) {
       if (caption.includes('loop') || caption.includes('autoplay')) {
         isVideoParams = true
       }
