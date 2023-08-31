@@ -1547,7 +1547,7 @@ var AssetWrapper = ({ blockId, block }) => {
   }, /* @__PURE__ */ React17.createElement(Asset, {
     block: value,
     zoomable: zoom && !isURL
-  }, ((_f = value == null ? void 0 : value.properties) == null ? void 0 : _f.caption) && !isURL && !isVideoParams && /* @__PURE__ */ React17.createElement("figcaption", {
+  }, ((_f = value == null ? void 0 : value.properties) == null ? void 0 : _f.caption) && !isURL && !isVideoParams && value.type !== "video" && /* @__PURE__ */ React17.createElement("figcaption", {
     className: "notion-asset-caption"
   }, /* @__PURE__ */ React17.createElement(Text, {
     value: value.properties.caption,

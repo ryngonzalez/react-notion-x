@@ -50,11 +50,14 @@ export const AssetWrapper: React.FC<{
       )}
     >
       <Asset block={value} zoomable={zoom && !isURL}>
-        {value?.properties?.caption && !isURL && !isVideoParams && (
-          <figcaption className='notion-asset-caption'>
-            <Text value={value.properties.caption} block={block} />
-          </figcaption>
-        )}
+        {value?.properties?.caption &&
+          !isURL &&
+          !isVideoParams &&
+          value.type !== 'video' && (
+            <figcaption className='notion-asset-caption'>
+              <Text value={value.properties.caption} block={block} />
+            </figcaption>
+          )}
       </Asset>
     </figure>
   )
