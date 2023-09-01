@@ -4408,6 +4408,9 @@ var Asset = ({ block, zoomable = true, children }) => {
     }
   }
   let source = ((_b = recordMap.signed_urls) == null ? void 0 : _b[block.id]) || ((_e = (_d = (_c = block.properties) == null ? void 0 : _c.source) == null ? void 0 : _d[0]) == null ? void 0 : _e[0]);
+  if (block.space_id) {
+    source = source.concat("&spaceId=", block.space_id);
+  }
   let content = null;
   if (!source) {
     return null;

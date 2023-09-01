@@ -194,7 +194,14 @@ export class NotionAPI {
     // because it is preferable for many use cases as opposed to making these API calls
     // lazily from the client-side.
     if (signFileUrls) {
+      console.log('Adding Signed URLs')
       await this.addSignedUrls({ recordMap, contentBlockIds, gotOptions })
+    }
+    console.log('pageId: ', pageId)
+
+    if (pageId == '51f8f030-4d21-48ac-b1b5-6da04599380c') {
+      console.log('HELLLLLOOOOOOOOOOOOOO')
+      console.log(pageId, contentBlockIds.length, recordMap.signed_urls.length)
     }
 
     return recordMap
@@ -215,6 +222,8 @@ export class NotionAPI {
       contentBlockIds = getPageContentBlockIds(recordMap)
     }
 
+    // console.log("# of content blocks ", contentBlockIds.length)
+
     const allFileInstances = contentBlockIds.flatMap((blockId) => {
       const block = recordMap.block[blockId]?.value
 
@@ -231,12 +240,12 @@ export class NotionAPI {
           block.type === 'page'
             ? block.format?.page_cover
             : block.properties?.source?.[0]?.[0]
-        // console.log(block, source)
+        console.log(block, source)
 
         if (source) {
-          if (!source.includes('secure.notion-static.com')) {
-            return []
-          }
+          // if (!source.includes('secure.notion-static.com')) {
+          //   return []
+          // }
 
           return {
             permissionRecord: {
@@ -250,7 +259,7 @@ export class NotionAPI {
 
       return []
     })
-
+    console.log('\n File Instances: ', allFileInstances)
     if (allFileInstances.length > 0) {
       try {
         const { signedUrls } = await this.getSignedFileUrls(
